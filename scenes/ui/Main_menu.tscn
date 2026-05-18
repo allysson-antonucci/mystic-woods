@@ -1,0 +1,118 @@
+[gd_scene load_steps=10 format=3 uid="uid://bk1ngr7vnsf3y"]
+
+[ext_resource type="FontFile" uid="uid://us4m1daigur0" path="res://GrapeSoda.ttf" id="1_05avw"]
+[ext_resource type="Script" path="res://scripts/menu/main_menu.gd" id="1_af545"]
+[ext_resource type="Texture2D" uid="uid://b5ee2nehks4f0" path="res://assets/background/background_menu.jpg" id="1_s341n"]
+[ext_resource type="AudioStream" uid="uid://6mnyr76v2bqx" path="res://assets/sounds/scenario/Menu_music.wav" id="4_olt5h"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_bmc2f"]
+texture = ExtResource("1_s341n")
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_h27df"]
+bg_color = Color(0.854902, 0.478431, 0.435294, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5faeo"]
+bg_color = Color(0.517647, 0.52549, 0.509804, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_eluig"]
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_udgmo"]
+bg_color = Color(1, 1, 1, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+shadow_color = Color(0, 0, 0, 0.223529)
+shadow_size = 4
+shadow_offset = Vector2(0, 3)
+
+[node name="MainMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_af545")
+
+[node name="Panel" type="Panel" parent="."]
+modulate = Color(0.662745, 0.662745, 0.662745, 1)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_bmc2f")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -60.0
+offset_top = -21.0
+offset_right = 60.0
+offset_bottom = 21.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 5
+
+[node name="New_game" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_stretch_ratio = 0.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("1_05avw")
+theme_override_font_sizes/font_size = 16
+theme_override_styles/focus = SubResource("StyleBoxFlat_h27df")
+theme_override_styles/hover = SubResource("StyleBoxFlat_5faeo")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_eluig")
+theme_override_styles/normal = SubResource("StyleBoxFlat_udgmo")
+text = "New Game"
+
+[node name="Exit" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("1_05avw")
+theme_override_font_sizes/font_size = 16
+theme_override_styles/focus = SubResource("StyleBoxFlat_h27df")
+theme_override_styles/hover = SubResource("StyleBoxFlat_5faeo")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_eluig")
+theme_override_styles/normal = SubResource("StyleBoxFlat_udgmo")
+text = "Exit"
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -42.5
+offset_right = 42.5
+offset_bottom = 16.0
+grow_horizontal = 2
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_y = 3
+theme_override_fonts/font = ExtResource("1_05avw")
+theme_override_font_sizes/font_size = 32
+text = "Mystic Woods"
+
+[node name="SFX_music" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_olt5h")
+volume_db = -4.0
+
+[connection signal="pressed" from="VBoxContainer/New_game" to="." method="_on_new_game_pressed"]
+[connection signal="pressed" from="VBoxContainer/Exit" to="." method="_on_exit_pressed"]

@@ -1,0 +1,287 @@
+[gd_scene load_steps=25 format=3 uid="uid://w5i6uigyl8g8"]
+
+[ext_resource type="Texture2D" uid="uid://cvjj8qfok2hgw" path="res://assets/characters/slime.png" id="1_daq34"]
+[ext_resource type="Script" path="res://scripts/enemy/enemySlime.gd" id="1_kn56e"]
+[ext_resource type="Script" path="res://scripts/enemyStateMachine/enemyStateMachine.gd" id="2_g2rdh"]
+[ext_resource type="Script" path="res://scripts/enemyStateMachine/state.gd" id="3_cb7ft"]
+[ext_resource type="Script" path="res://scripts/enemyStateMachine/idle.gd" id="3_tlksv"]
+[ext_resource type="Script" path="res://scripts/enemyStateMachine/follow.gd" id="5_qot1q"]
+[ext_resource type="Script" path="res://scripts/enemyStateMachine/takeDamage.gd" id="7_guyso"]
+[ext_resource type="Script" path="res://scripts/enemyStateMachine/dead.gd" id="7_tqdyt"]
+[ext_resource type="AudioStream" uid="uid://blrldpppprkjm" path="res://assets/sounds/enemy_slime/Slime_Hurt.ogg" id="9_ih5ir"]
+[ext_resource type="AudioStream" uid="uid://x4ewhb16fbmd" path="res://assets/sounds/enemy_slime/Slime_Dying.ogg" id="10_0u6j0"]
+[ext_resource type="AudioStream" uid="uid://ce7s8qx8glbo5" path="res://assets/sounds/enemy_slime/slime_Jump.wav" id="12_yntc8"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_0cm6x"]
+radius = 8.06226
+
+[sub_resource type="Animation" id="Animation_53vur"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("EnemyTexture:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="Animation" id="Animation_6tp05"]
+resource_name = "enemy_dead"
+length = 0.6
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("EnemyTexture:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [84, 85, 86, 87, 88, 89]
+}
+
+[sub_resource type="Animation" id="Animation_70qwo"]
+resource_name = "enemy_follow_down"
+length = 0.6
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("EnemyTexture:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [21, 22, 23, 24, 25, 26]
+}
+
+[sub_resource type="Animation" id="Animation_1xetu"]
+resource_name = "enemy_follow_right"
+length = 0.6
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("EnemyTexture:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [28, 29, 30, 31, 32, 33]
+}
+
+[sub_resource type="Animation" id="Animation_1sjku"]
+resource_name = "enemy_follow_up"
+length = 0.6
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("EnemyTexture:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [35, 36, 37, 38, 39, 40]
+}
+
+[sub_resource type="Animation" id="Animation_7yxk8"]
+resource_name = "enemy_idle_down"
+length = 0.4
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("EnemyTexture:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3]
+}
+
+[sub_resource type="Animation" id="Animation_ew2d6"]
+resource_name = "enemy_idle_right"
+length = 0.4
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("EnemyTexture:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [7, 8, 9, 10]
+}
+
+[sub_resource type="Animation" id="Animation_kwlcr"]
+resource_name = "enemy_idle_up"
+length = 0.4
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("EnemyTexture:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [14, 15, 16, 17]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_k1li2"]
+_data = {
+"RESET": SubResource("Animation_53vur"),
+"enemy_dead": SubResource("Animation_6tp05"),
+"enemy_follow_down": SubResource("Animation_70qwo"),
+"enemy_follow_right": SubResource("Animation_1xetu"),
+"enemy_follow_up": SubResource("Animation_1sjku"),
+"enemy_idle_down": SubResource("Animation_7yxk8"),
+"enemy_idle_right": SubResource("Animation_ew2d6"),
+"enemy_idle_up": SubResource("Animation_kwlcr")
+}
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_8kexr"]
+radius = 60.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_f5mq3"]
+radius = 4.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_1bwik"]
+radius = 8.0
+
+[node name="Enemy" type="CharacterBody2D"]
+collision_layer = 4
+script = ExtResource("1_kn56e")
+
+[node name="StateMachine" type="Node" parent="." node_paths=PackedStringArray("current_state")]
+script = ExtResource("2_g2rdh")
+current_state = NodePath("Idle")
+
+[node name="State" type="Node" parent="StateMachine" node_paths=PackedStringArray("enemy", "enemyAnimation", "enemyTexture", "enemyInteractionArea")]
+script = ExtResource("3_cb7ft")
+enemy = NodePath("../..")
+enemyAnimation = NodePath("../../EnemyAnimation")
+enemyTexture = NodePath("../../EnemyTexture")
+enemyInteractionArea = NodePath("../../DetectionArea/Collision")
+
+[node name="Idle" type="Node" parent="StateMachine" node_paths=PackedStringArray("enemy", "enemyAnimation", "enemyTexture", "enemyInteractionArea")]
+script = ExtResource("3_tlksv")
+enemy = NodePath("../..")
+enemyAnimation = NodePath("../../EnemyAnimation")
+enemyTexture = NodePath("../../EnemyTexture")
+enemyInteractionArea = NodePath("../../DetectionArea/Collision")
+
+[node name="Follow" type="Node" parent="StateMachine" node_paths=PackedStringArray("enemy", "enemyAnimation", "enemyTexture", "enemyInteractionArea")]
+script = ExtResource("5_qot1q")
+enemy = NodePath("../..")
+enemyAnimation = NodePath("../../EnemyAnimation")
+enemyTexture = NodePath("../../EnemyTexture")
+enemyInteractionArea = NodePath("../../DetectionArea/Collision")
+
+[node name="TakeDamage" type="Node" parent="StateMachine" node_paths=PackedStringArray("enemy", "enemyAnimation", "enemyTexture")]
+script = ExtResource("7_guyso")
+enemy = NodePath("../..")
+enemyAnimation = NodePath("../../EnemyAnimation")
+enemyTexture = NodePath("../../EnemyTexture")
+
+[node name="Dead" type="Node" parent="StateMachine" node_paths=PackedStringArray("enemy", "enemyAnimation")]
+script = ExtResource("7_tqdyt")
+enemy = NodePath("../..")
+enemyAnimation = NodePath("../../EnemyAnimation")
+
+[node name="EnemyCollision" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_0cm6x")
+
+[node name="EnemyRayCast" type="RayCast2D" parent="."]
+target_position = Vector2(0, 60)
+collision_mask = 3
+collide_with_areas = true
+
+[node name="EnemyTexture" type="Sprite2D" parent="."]
+texture = ExtResource("1_daq34")
+hframes = 7
+vframes = 13
+
+[node name="EnemyAnimation" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_k1li2")
+}
+
+[node name="DetectionArea" type="Area2D" parent="."]
+collision_layer = 32
+collision_mask = 2
+
+[node name="Collision" type="CollisionShape2D" parent="DetectionArea"]
+visible = false
+shape = SubResource("CircleShape2D_8kexr")
+
+[node name="Hitbox" type="Area2D" parent="."]
+visible = false
+collision_layer = 64
+collision_mask = 16
+
+[node name="Collision" type="CollisionShape2D" parent="Hitbox"]
+shape = SubResource("CircleShape2D_f5mq3")
+debug_color = Color(0.406827, 0.599633, 0.280108, 0.42)
+
+[node name="Hurtbox" type="Area2D" parent="."]
+collision_layer = 128
+collision_mask = 8
+
+[node name="Collision" type="CollisionShape2D" parent="Hurtbox"]
+shape = SubResource("CircleShape2D_1bwik")
+debug_color = Color(0.878492, 0.255228, 0.574528, 0.42)
+
+[node name="HealthBar" type="ProgressBar" parent="."]
+visible = false
+modulate = Color(0.117647, 0.635294, 0.294118, 1)
+offset_left = -16.0
+offset_top = 9.0
+offset_right = 304.0
+offset_bottom = 49.0
+scale = Vector2(0.1, 0.1)
+show_percentage = false
+
+[node name="Health_regen_timer" type="Timer" parent="."]
+
+[node name="SFX_follow_timer" type="Timer" parent="."]
+wait_time = 0.6
+
+[node name="Audio" type="Node" parent="."]
+
+[node name="SFX_enemy_hurt" type="AudioStreamPlayer" parent="Audio"]
+stream = ExtResource("9_ih5ir")
+
+[node name="SFX_enemy_dying" type="AudioStreamPlayer" parent="Audio"]
+stream = ExtResource("10_0u6j0")
+volume_db = 3.0
+
+[node name="SFX_enemy_follow" type="AudioStreamPlayer" parent="Audio"]
+stream = ExtResource("12_yntc8")
+
+[connection signal="animation_finished" from="EnemyAnimation" to="StateMachine/Dead" method="_on_enemy_animation_animation_finished"]
+[connection signal="body_entered" from="DetectionArea" to="." method="_on_detection_area_body_entered"]
+[connection signal="body_exited" from="DetectionArea" to="." method="_on_detection_area_body_exited"]
+[connection signal="area_entered" from="Hurtbox" to="." method="_on_hurtbox_area_entered"]
+[connection signal="timeout" from="Health_regen_timer" to="." method="_on_health_regen_timer_timeout"]
+[connection signal="timeout" from="SFX_follow_timer" to="StateMachine/Follow" method="_on_sfx_follow_timer_timeout"]
